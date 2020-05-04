@@ -4,8 +4,20 @@
 # Updates DNS records for Cloudflare
 #
 
-. args.sh
-. functions.sh
+# Get the directory of this script
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+    DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+
+# shellcheck source=args.sh
+. "$DIR/args.sh"
+
+# shellcheck source=functions.sh
+. "$DIR/functions.sh"
 
 # Strip slashes from the Cloudflare API URL
 _arg_cloudflare_url=${_arg_cloudflare_url%/}
